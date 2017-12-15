@@ -6,24 +6,37 @@ import gql from 'graphql-tag';
 
 const urlBase = process.env.PUBLIC_URL || '';
 
+export const Wrap = ({children}) => (
+  <div className="panel panel-default">
+    <div className="panel-heading">
+      <h2 className="panel-title">Available channels</h2>
+    </div>
+    <div className="panel-body">
+      {children}
+    </div>
+    <div className="panel-footer">
+      <AddChannel />
+    </div>
+  </div>
+);
+
 const ChannelsList = ({data: {loading, error, channels}}) => {
   if(loading) {
-    return <p>Loading...</p>;
+    return <Wrap><p>Loading ...</p></Wrap>;
   }
   if(error) {
-    return <p>Error: {error.message}</p>;
+    return <Wrap><p>Error: {error.message}</p></Wrap>;
   }
   return (
-    <div>
-      <ul>
+    <Wrap>
+      <ul className="list-group" style={{marginBottom: 0}}>
         {channels.map(ch => (
-          <li className={'channel ' + (ch.id < 0 ? 'optimistic' : '')} key={ch.id}>
+          <li className={'channel ' + (ch.id < 0 ? 'optimistic' : '') + ' list-group-item'} key={ch.id}>
             <Link to={`${urlBase}/channel/${ch.id}`}>{ch.name}</Link>
           </li>
         ))}
       </ul>
-      <AddChannel />
-    </div>
+    </Wrap>
   );
 };
 

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { ApolloClient } from 'apollo-client';
-import { concat/* , split */ } from 'apollo-link';
+import { concat } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
-// import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
-import { toIdValue/* , getMainDefinition */ } from 'apollo-utilities';
+import { toIdValue } from 'apollo-utilities';
 import {
   BrowserRouter,
   Route,
@@ -15,7 +14,6 @@ import {
 import ChannelsListWithData from './components/ChannelsList';
 import ChannelDetails from './components/ChannelDetails';
 import NotFound from './components/NotFound';
-import logo from './logo.svg';
 import { WebSocketLink } from 'apollo-link-ws';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { format } from 'url';
@@ -35,7 +33,6 @@ if(process.env.REACT_APP_WS_HOSTNAME_LOCATION === '1') {
 
 const wsUrl = format(wsComponents);
 
-// const httpLink = new HttpLink({uri: 'http://localhost:4000/graphql'});
 const wsClient = new SubscriptionClient(wsUrl, {reconnect: true});
 const wsLink = new WebSocketLink(wsClient);
 
@@ -51,15 +48,6 @@ const dataIdFromObject = result => {
   }
   return null;
 };
-
-// const link = split(
-//   ({query}) => {
-//     const { kind, operation } = getMainDefinition(query);
-//     return kind === 'OperationDefinition' && operation === 'subscription';
-//   },
-//   wsLink,
-//   concat(timeoutMiddleware, httpLink),
-// );
 
 const client = new ApolloClient({
   link: concat(timeoutMiddleware, wsLink),
@@ -84,11 +72,10 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <div className="App">
-            <div className="App-header">
+          <div className="App container">
+            <div className="page-header">
               <Link to={`${urlBase}/`} className="navbar">
-                <img src={logo} className="App-logo" alt="logo" />
-                <h2>Welcome to Apollo</h2>
+                <h1>graphql-apollo-apex</h1>
               </Link>
             </div>
             <Switch>

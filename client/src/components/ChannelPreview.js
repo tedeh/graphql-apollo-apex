@@ -1,15 +1,11 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Wrap } from './ChannelDetails';
 
 const ChannelPreview = ({ data: {loading, error, channel } }) => {  
 return (
-    <div>
-      <div className="channelName">
-        {channel ? channel.name : 'Loading...'}
-      </div>
-      <div>Loading Messages</div>
-    </div>
+    <Wrap title={`Loading messages for ${channel ? channel.name : '...'}`}></Wrap>
   );
 };
 export const channelQuery = gql`

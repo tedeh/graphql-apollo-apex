@@ -61,7 +61,8 @@ const AddMessage = ({mutate, match}) => {
   return (
     <input
       type="text"
-      placeholder="New message"
+      className="form-control"
+      placeholder="Post new message to channel"
       onKeyUp={handleKeyUp}
     />
   );

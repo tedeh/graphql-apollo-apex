@@ -42,6 +42,7 @@ const AddChannel = ({mutate}) => {
   return (
     <input
       type="text"
+      className="form-control"
       placeholder="New channel"
       onKeyUp={handleKeyUp}
     />
