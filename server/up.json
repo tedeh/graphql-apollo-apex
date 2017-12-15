@@ -1,0 +1,14 @@
+{
+  "region": ["eu-central-1"],
+  "lambda": {
+    "memory": 512
+  },
+  "hooks": {
+    "prebuild": [
+			"cd ../client && yarn run build",
+			"rm -rf ./build",
+			"mkdir -p ./build",
+			"cp -r ../client/build/* ./build/"
+    ]
+  }
+}
