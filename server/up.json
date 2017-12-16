@@ -3,6 +3,13 @@
   "lambda": {
     "memory": 512
   },
+  "environment": {
+    "PORT": "4000",
+    "BASEPATH": "/development",
+    "REACT_APP_WS_PATHNAME": "/development/graphql",
+    "REACT_APP_WS_HOSTNAME_LOCATION": "1",
+    "REACT_APP_WS_PROTOCOL": "wss"
+  },
   "hooks": {
     "prebuild": [
 			"cd ../client && yarn run build",

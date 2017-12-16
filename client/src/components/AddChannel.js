@@ -12,42 +12,64 @@ const addChannelMutation = gql`
   }
 `;
 
-const AddChannel = ({mutate}) => {
- const handleKeyUp = (evt) => {
-    if (evt.keyCode === 13) {
-      evt.persist();
-      mutate({ 
-        variables: { name: evt.target.value },
-        update: (store, { data: { addChannel } }) => {
-          // Read the data from the cache for this query.
-          const data = store.readQuery({query: channelsListQuery });
-          // Add our channel from the mutation to the end.
-          data.channels.push(addChannel);
-          // Write the data back to the cache.
-          store.writeQuery({ query: channelsListQuery, data });
+class AddChannel extends React.Component {
+
+  state = {
+    name: '',
+  }
+
+  handleChange = ev => {
+    const { name, value } = ev.target;
+    this.setState({[name]: value});
+  }
+
+  handleSubmit = ev => {
+    ev.preventDefault();
+    const { match, mutate } = this.props;
+    const { name } = this.state;
+    mutate({ 
+      variables: { name },
+      update: (store, { data: { addChannel } }) => {
+        // Read the data from the cache for this query.
+        const data = store.readQuery({query: channelsListQuery });
+        // Add our channel from the mutation to the end.
+        data.channels.push(addChannel);
+        // Write the data back to the cache.
+        store.writeQuery({ query: channelsListQuery, data });
+      },
+      optimisticResponse: {
+        addChannel: {
+          __typename: 'Channel',
+          name,
+          id: Math.round(Math.random() * -10000),
         },
-        optimisticResponse: {
-          addChannel: {
-            __typename: 'Channel',
-            name: evt.target.value,
-            id: Math.round(Math.random() * -10000),
-          },
-        },
-      })
-      .then( res => {
-        evt.target.value = '';  
-      });
-    }
-  };
-  return (
-    <input
-      type="text"
-      className="form-control"
-      placeholder="New channel"
-      onKeyUp={handleKeyUp}
-    />
-  );
-};
+      },
+    }).then(() => {
+      this.setState({name: ''});
+    });
+  }
+
+  render() {
+    const { name } = this.state;
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div className="input-group">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="New channel"
+            name="name"
+            value={name}
+            onChange={this.handleChange}
+          />
+          <div className="input-group-btn">
+            <button className="btn btn-primary">Create</button>
+          </div>
+        </div>
+      </form>
+    );
+  }
+}
 
 const AddChannelWithMutation = graphql(addChannelMutation)(AddChannel);
 export default AddChannelWithMutation;

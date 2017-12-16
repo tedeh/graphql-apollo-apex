@@ -11,4 +11,4 @@ const MessageList = ({ messages }) => {
     </ul>
   );
 };
-export default (MessageList);
+export default MessageList;
