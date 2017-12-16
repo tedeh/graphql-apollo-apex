@@ -1,18 +1,19 @@
 const { withFilter, PubSub } = require('graphql-subscriptions');
 
 const channels = [{
-  id: 1,
+  id: '1',
   name: 'soccer',
   messages: [],
 }, {
-  id: 2,
+  id: '2',
   name: 'baseball',
   messages: [],
 }];
 
-const channelById = id => channels.find(ch => ch.id === parseInt(id, 10));
+const channelById = id => channels.find(ch => ch.id === id);
 
-let nextId = 3, nextMessageId = 1;
+let nextId = 3
+let nextMessageId = 1;
 
 const pubsub = new PubSub();
 
@@ -27,7 +28,7 @@ const resolvers = {
   },
   Mutation: {
     addChannel: (root, args) => {
-      const newChannel = { id: nextId++, name: args.name, messages: [] };
+      const newChannel = { id: String(nextId++), name: args.name, messages: [] };
       channels.push(newChannel);
       return newChannel;
     },

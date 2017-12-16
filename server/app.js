@@ -25,6 +25,6 @@ server.listen(PORT, () => {
     schema,
   }, {
     server,
-    path: '/graphql',
+    path: BASEPATH + '/graphql',
   });
 });

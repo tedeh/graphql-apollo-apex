@@ -25,7 +25,7 @@ class AddChannel extends React.Component {
 
   handleSubmit = ev => {
     ev.preventDefault();
-    const { match, mutate } = this.props;
+    const { mutate } = this.props;
     const { name } = this.state;
     mutate({ 
       variables: { name },
